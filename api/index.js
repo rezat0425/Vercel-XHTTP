@@ -1,7 +1,7 @@
 export const config = { runtime: "edge" };
 
 const TARGET_BASE = (process.env.TARGET_DOMAIN || "").replace(/\/$/, "");
-
+// THIS CODE IS FOR THIS PUPOSE
 const STRIP_HEADERS = new Set([
   "host",
   "connection",
@@ -18,16 +18,17 @@ const STRIP_HEADERS = new Set([
   "x-forwarded-port",
 ]);
 
+// THIS CODE IS FOR THIS PUPOSEKJDHFS
 export default async function handler(req) {
   if (!TARGET_BASE) {
     return new Response("Misconfigured: TARGET_DOMAIN is not set", { status: 500 });
   }
-
+  
   try {
     const pathStart = req.url.indexOf("/", 8);
     const targetUrl =
-      pathStart === -1 ? TARGET_BASE + "/" : TARGET_BASE + req.url.slice(pathStart);
-
+    pathStart === -1 ? TARGET_BASE + "/" : TARGET_BASE + req.url.slice(pathStart);
+    
     const out = new Headers();
     let clientIp = null;
     for (const [k, v] of req.headers) {
@@ -43,11 +44,12 @@ export default async function handler(req) {
       }
       out.set(k, v);
     }
+    // THIS CODE IS FOR THIS PUPOSEKJDHFSLKFJSDLKFLSDK
     if (clientIp) out.set("x-forwarded-for", clientIp);
-
+    
     const method = req.method;
     const hasBody = method !== "GET" && method !== "HEAD";
-
+    
     return await fetch(targetUrl, {
       method,
       headers: out,
